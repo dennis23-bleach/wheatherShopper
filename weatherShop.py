@@ -13,36 +13,26 @@ import time
 driver = webdriver.Firefox()
 
 
-driver.get('https://weathershopper.pythonanywhere.com')
+driver.get('https://weathershopper.pythonanywhere.com/moisturizer')
+time.sleep(5)
 
-temp = driver.find_element_by_xpath("//span[@id='temperature']")
+add_to_cart = driver.find_elements_by_xpath("//button[contains(@class,'btn btn-primary')]")
+total_no_of_items = len(add_to_cart)
 
-#spliting the value to get only the numbers desired
-current_temp = temp.text.split()[0]
-print(current_temp)
+for item in add_to_cart:
+    item.click()
+
+cart = driver.find_element_by_xpath("//button[@class='thin-text nav-link']")
+cart.click()
+
+
+no_of_items = len(driver.find_elements_by_xpath("//table[@class='table table-striped']//tbody//tr"))
+
+if no_of_items == total_no_of_items:
+    print("Success: all items have been added")
+else:
+    print("Failed")
 
 time.sleep(5)
 
-
-
-#temp comparison
-if int(current_temp) < 19:
-    driver.find_element_by_xpath("//button[contains(text(),'Buy moisturizers')]").click()
-    if driver.title == "The Best Moisturizers in the World!":
-        print('Passed : In the moisturizers page')
-    else:
-        print('Failed : could not get into the moisturizers page')
-    time.sleep(10)
-elif int(current_temp) > 34:
-    driver.find_element_by_xpath("//button[contains(text(),'Buy sunscreens')]").click()
-    if driver.title == "The Best Sunscreens in the World!":
-        print('Passed : In the Sunscreens page')
-    else:
-        print('Failed : could not get into the sunscreen page')
-    time.sleep(10)
-else:
-    print('Failed : Temperature not in range')
-
-
-#close the browser
 driver.close()
