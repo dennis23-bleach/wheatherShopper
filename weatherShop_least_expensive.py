@@ -66,4 +66,31 @@ browser.find_element_by_xpath("//button[@class='thin-text nav-link']").click()
 
 cart_checkout(item_names, item_price)
 
+payment = browser.find_element_by_xpath("//span[contains(text(),'Pay with Card')]").click()
+
+iframe_xpath = browser.find_element_by_xpath("//iframe[@name = 'stripe_checkout_app']")
+browser.switch_to_frame(iframe_xpath)
+
+
+xpath_email = '//input[@placeholder="Email"]'
+payment_email = browser.find_element_by_xpath(xpath_email).send_keys('dennis.23bleach@gmail.com')
+
+xpath_card_no = '//input[@placeholder = "Card number"]'
+payment_card_no = browser.find_element_by_xpath(xpath_card_no).send_keys('4242424242424242')
+
+xpath_date = '//input[@placeholder="MM / YY"]'
+payment_date = browser.find_element_by_xpath(xpath_date).send_keys('052020')
+
+xpath_cvc = '//input[@placeholder="CVC"]'
+payment_cvc = browser.find_element_by_xpath(xpath_cvc).send_keys('0123')
+
+xpath_zip = '//input[@placeholder="ZIP Code"]'
+payment_zip = browser.find_element_by_xpath(xpath_zip).send_keys('560037')
+
+xpath_pay = '//button[@type="submit"]'
+payment_pay = browser.find_element_by_xpath(xpath_pay).click()
+
+
+time.sleep(10)
+
 browser.close()
